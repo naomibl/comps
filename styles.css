@@ -1,0 +1,257 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 300vh;
+  transition: background-color 3s ease;
+  padding: 0;
+  overflow: auto;
+  background: black;
+  overflow-x: hidden;
+}
+
+.title-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100vh;
+  padding-top: 30vh;
+}
+
+.text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 31vw;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 0.9;
+      text-align: center;
+      color: rgb(213, 0, 0);
+      position: relative;
+      white-space: nowrap;
+      text-shadow: -4px -4px 8px rgba(229, 229, 229, 0.6);
+}
+    
+.overlay {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(0 0 100% 0);
+  pointer-events: none;
+}
+
+
+  .overlay video {
+  top: 50%;
+  left: 50%;
+  width: 130%;
+  height: 130%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  }
+
+  .mask {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    .mask svg {
+      width: 100%;
+      height: 100%; 
+    }
+
+    .mask text {
+      fill: white;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 31vw;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+
+  .credit {
+  margin-top: 20px;       
+  text-align: center;      
+  font-size: 1.5rem;
+  color: red;
+  font-family: 'Bebas Neue', sans-serif; 
+  text-transform: uppercase;  
+  white-space: nowrap;
+}
+.title-spacer {
+  height: 200vh;
+}
+
+img, #frames {
+  width: 1000px;
+  height: auto;
+  display: block;
+  margin: 40px auto;
+  border: 2px solid black;
+  object-fit: cover; 
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+#farm-container {
+  perspective: 1px; 
+}
+
+#farm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1000px;
+  height: auto;
+  transform: translate(-50%, -50%) translateZ(-1px) scale(2);
+  border: 2px solid black;
+  z-index: 2;
+}
+
+.lookup-container {
+  position: relative;
+  height: 300vh; 
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px; 
+  z-index: 5; 
+}
+
+.lookup-text {
+  position: fixed;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%) translateX(0);
+  color: white;
+  text-shadow: 
+    8px 8px rgba(200, 200, 200, 0.6),
+    0 8px 8px rgba(255, 0, 0, 1),
+    0 0 8px rgba(255, 0, 0, 0.6),
+    0 0 8px rgba(255, 0, 0, 0.4);
+  font-size: 34em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;              
+  visibility: hidden;    
+  transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+  z-index: 10;
+}
+
+
+#army-image {
+  width: 100%;
+  display: block;
+  margin: 0 0 50px 0;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.img-magnifier-container {
+  position: relative;
+}
+
+.img-magnifier-lens {
+  position: absolute;
+  border: 2px solid #000;
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+
+.img-magnifier-container img {
+  display: block;
+  cursor: none;
+  width: 100%; 
+}
+
+#closeup-image {
+  transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: center center;
+  transform-style: preserve-3d;
+}
+
+/*
+@keyframes subtleShake {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(0.5px, -0.5px) rotate(0.2deg); }
+  50% { transform: translate(-0.5px, 0.5px) rotate(-0.2deg); }
+  75% { transform: translate(0.5px, 0.5px) rotate(0.1deg); }
+}
+
+.subtle-shake {
+  animation: subtleShake 1.5s infinite;
+}
+*/
+canvas {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+}
+
+#ant-game-section {
+  display: block;
+  margin: 0 auto;
+  height: auto;
+}
+
+#moat-scene {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#intro-scene, #ant-game-section, #moat-scene {
+  margin-bottom: 100px; 
+}
+
+
+  #face-container {
+    position: relative;
+    width: 100%;
+  
+  }
+
+  #flash-container {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000; 
+  pointer-events: none; 
+}
+
+.fade-line {
+  display: inline-block;
+  transition: opacity 0.5s ease-out;
+}
+
+.keep-visible {
+  display: inline-block;
+  color: rgb(199, 26, 26);
+}
+
+p, h3, h2, h1 {
+  text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+  color: rgb(28, 28, 28);
+  font-size: 30px;
+  margin-top: 35px;
+  margin-bottom: 90px;
+}
+
