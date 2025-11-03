@@ -15,17 +15,18 @@ let moatScene = function(p) {
 
   let firstText = { content: '"OPEN THE DAM!"', baseY: 350, x: 0, size: 250 };
   let texts = [
-    { content: "The water rose, a silver tide around the farm,", baseY: 900, x: 800, size: 30 },
+    { content: "And water rushed out, a silver tide around the farm,", baseY: 900, x: 800, size: 30 },
     { content: "like the moat encircling a medieval city.", baseY: 1000, x: 1000, size: 40 },
     { content: "Twelve feet deep.", baseY: 1300, x: 300, size: 60 },
-    { content: "The water would swallow them all,\nevery last one.", baseY: 1340, x: 405, size: 30 },
-    { content: "Then he saw them", baseY: 1940, x: 700, size: 170 },
+    { content: "It would swallow them all,\nevery last one.", baseY: 1340, x: 405, size: 30 },
+    { content: "Then he saw them", baseY: 2040, x: 700, size: 150 },
     { content: "It was a sight one could never forget.", baseY: 1850, x: 500, size: 60 },
     { content: "As far as eye could see, crept a darkening hem, ever longer and broader, until the shadow spread across the slope from east to west.", baseY: 1780, x: 700, size: 25 },
-    { content: "He saw the brilliant,\ncold eyes,\nand the razor-edged mandibles,\nof this host of infinity.", baseY: 2150, x: 1300, size: 60 },
+    { content: "He saw the brilliant,\ncold eyes,\nand the razor-edged mandibles,\nof this host of infinity.", baseY: 2250, x: 1300, size: 60 },
     { content: "and one by one", baseY: 2250, x: 200, size: 50 },
     { content: "they swarmed over the fallen", baseY: 2450, x: 600, size: 40 },
-    { content: "to form a living bridge.", baseY: 2525, x: 620, size: 90 }
+    { content: "to form a living bridge", baseY: 2525, x: 620, size: 90 },
+    { content: "over the moat.", baseY: 2625, x: 1020, size: 60 }
   ];
 
   let parallaxFactor = 0.3;
@@ -136,8 +137,8 @@ let moatScene = function(p) {
       let x = t.x;
       let y;
 
-      if (["and one by one", "they swarmed over the fallen", "to form a living bridge."].includes(t.content)) {
-        let startX = p.width + 200;
+      if (["and one by one", "they swarmed over the fallen", "to form a living bridge", "over the moat."].includes(t.content)) {
+        let startX = p.width + 170;
         let progress = p.map(scrollY, t.baseY - 900, t.baseY - 200, 0, 1, true);
         progress = p.constrain(progress, 0, 1); 
         x = p.lerp(startX, t.x, progress);
@@ -155,11 +156,11 @@ let moatScene = function(p) {
       p.textFont('Oculi Display Medium', 'sans-serif');
       p.textSize(t.size);
       p.textAlign(t.content.startsWith("He saw the brilliant,") ? p.RIGHT : p.CENTER, p.CENTER);
-      p.fill(["and one by one", "they swarmed over the fallen", "to form a living bridge."].includes(t.content) ? 0 : 255, textAlpha);
+      p.fill(["and one by one", "they swarmed over the fallen", "to form a living bridge", "over the moat."].includes(t.content) ? 0 : 255, textAlpha);
 
       if (t.content === "Then he saw them") {
-        let blur = p.map(scrollY, t.baseY - 900, t.baseY - 200, 3, 0, true);
-        p.drawingContext.filter = `blur(${blur}px)`;
+        let blur = p.map(scrollY, t.baseY - 200, t.baseY - 100, 3, 0, true);
+        //p.drawingContext.filter = `blur(${blur}px)`;
         p.text(t.content, 0, 0);
         p.drawingContext.filter = 'none';
       } else {

@@ -73,8 +73,9 @@ let face = function(p) {
   let finalSplatImg;
   let swarmActive = false;
   let swarmTriggered = false;
-
-  
+  let closeImg;
+  let imageFlashIndex = 0;
+  let currentImageScale = 1;
   let flashingStarted = false;
   let flashingStartTime = 0;
   const flashingDuration = 2000;
@@ -84,6 +85,7 @@ let face = function(p) {
       finalAntFrames[i] = p.loadImage(`images/a${i + 1}.png`);
     }
     finalSplatImg = p.loadImage("images/splaat.png");
+    closeImg = p.loadImage("images/head.png");
   };
 
   p.setup = function() {
@@ -136,51 +138,79 @@ let face = function(p) {
     p.finalAnts = finalAnts;
   };
 
-  p.draw = function() {
-    if (!swarmActive) return;
-    p.clear();
 
-    const scale = window.faceScale || 1;
+p.draw = function() {
+  if (!swarmActive) return;
+  p.clear();
 
-    for (let ant of finalAnts) {
-      ant.update();
-      ant.display(scale);
+  const scale = window.faceScale || 1;
+
+  // Draw ants
+  for (let ant of finalAnts) {
+    ant.update();
+    ant.display(scale);
+  }
+
+  if (window.requestFaceFlash && !flashingStarted) {
+    flashingStarted = true;
+    flashingStartTime = p.millis();
+    window.requestFaceFlash = false;
+    imageFlashIndex = 0;
+    currentImageScale = 1;
+  }
+
+  if (flashingStarted) {
+    const elapsed = p.millis() - flashingStartTime;
+
+    // --- Black flashes ---
+    const flashCount = 17;
+    const flashPeriod = 40;
+    const totalFlashDuration = flashCount * flashPeriod;
+    let blackVisible = false;
+
+    if (elapsed < totalFlashDuration) {
+      const periodIndex = Math.floor(elapsed / flashPeriod);
+      blackVisible = (periodIndex % 2 === 0);
+    } else {
+      blackVisible = true; // stay black after flashes
     }
 
-    if (window.requestFaceFlash && !flashingStarted) {
-      flashingStarted = true;
-      flashingStartTime = p.millis();
-      window.requestFaceFlash = false;
+    if (blackVisible) {
+      p.noStroke();
+      p.fill(0);
+      p.rect(0, 0, p.width, p.height);
     }
+    
 
-    if (flashingStarted) {
-      const elapsed = p.millis() - flashingStartTime;
-      const flashCount = 17;        
-      const flashPeriod = 40;   
-      const totalDuration = flashCount * flashPeriod;
+const initialDelay = flashPeriod * 6; // wait for black flashes
+const imageInterval = 500;  // ms between image appearances
+const imageDuration = 100;  
+const maxFlashes = 3;
 
-      if (elapsed < totalDuration) {
+if (imageFlashIndex < maxFlashes) {
+  const isFirstFlash = (imageFlashIndex === 0);
+  const flashStartTime = initialDelay + imageFlashIndex * imageInterval;
+  const flashEndTime = flashStartTime + (isFirstFlash ? imageDuration * 2 : imageDuration); 
 
-        const periodIndex = Math.floor(elapsed / flashPeriod);
-        const showBlack = (periodIndex % 2 === 0);
-        if (showBlack) {
-          p.clear();
-          p.noStroke();
-          p.fill(0);
-          p.rect(0, 0, p.width, p.height);
-        } else {
-          p.clear();
-        }
-        return; 
-      } else {
-        p.clear(); 
-    p.noStroke();
-    p.fill(0);
-    p.rect(0, 0, p.width, p.height); 
-    return; 
-      }
-    }
-  };
+  if (elapsed >= flashStartTime && elapsed <= flashEndTime) {
+    currentImageScale = 1 + imageFlashIndex * 0.2;
+    p.imageMode(p.CENTER);
+    p.image(
+      closeImg,
+      p.width / 2,
+      p.height / 2,
+      closeImg.width * currentImageScale,
+      closeImg.height * currentImageScale
+    );
+  }
+
+  if (elapsed >= flashEndTime) {
+    imageFlashIndex++;
+  }
+}
+
+  }
+};
 
   class FinalAnt {
     constructor() {

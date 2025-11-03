@@ -1,5 +1,5 @@
 const mySketch = (p) => {
-  let particlesQ = 50;
+  let particlesQ = 25;
   let c = 0;
 
   let x = [];
@@ -17,28 +17,27 @@ const mySketch = (p) => {
     cnv.style('position', 'absolute');
     cnv.style('top', '0');
     cnv.style('left', '0');
- 
 
     for (let i = 0; i < particlesQ; i++) {
       vx[i] = 0;
       vy[i] = 0;
     }
-  }
+  };
 
   p.draw = function() {
     if (c < particlesQ) {
-      addNewParticleFromEdge();
+      addNewParticleFromTop(); 
     }
 
     for (let a = 0; a < c; a++) {
-      let ax = p.random(-0.03, 0.03); 
+      let ax = p.random(-0.03, 0.03);
       let ay = p.random(-0.03, 0.03);
 
       for (let b = 0; b < c; b++) {
         if (a !== b) {
           let dx = x[a] - x[b];
           let dy = y[a] - y[b];
-          let d = p.sqrt(dx*dx + dy*dy);
+          let d = p.sqrt(dx * dx + dy * dy);
           if (d < 1) d = 1;
           let common = p.cos(d) / d;
           ax += common * dx * 0.01;
@@ -54,37 +53,28 @@ const mySketch = (p) => {
       x[i] += vx[i];
       y[i] += vy[i];
 
+      if (y[i] > p.height) {
+        y[i] = 0;
+        x[i] = p.random(p.width);
+        vy[i] = p.random(0.1, 1.2);
+        vx[i] = p.random(-0.2, 0.2);
+      }
 
       if (x[i] < 0) x[i] = p.width;
       if (x[i] > p.width) x[i] = 0;
-      if (y[i] > p.height - 10) {
-        y[i] = p.height - 10;
-        vy[i] *= -0.2;
-      }
-      if (y[i] < 10) {
-        y[i] = 10;
-        vy[i] *= -0.2;
-      }
+      if (y[i] < 0) y[i] = 0;
 
-      p.set(x[i], y[i], p.color(0));
+      p.set(x[i], y[i], p.color('#ff0000'));
     }
 
     p.updatePixels();
-  }
+  };
 
-  function addNewParticleFromEdge() {
-    let edge = p.random() < 0.5 ? "left" : "right";
-
-    if (edge === "left") {
-      x[c] = 0;
-      vx[c] = p.random(0.1, 1.0);
-    } else {
-      x[c] = p.width;
-      vx[c] = p.random(-1, -0.7);
-    }
-
-    y[c] = p.random(p.height);
-    vy[c] = p.random(-0.2, 0.2);
+  function addNewParticleFromTop() {
+    x[c] = p.random(p.width);
+    y[c] = 0;
+    vx[c] = p.random(-0.2, 0.2);
+    vy[c] = p.random(0.1, 1.2);
 
     c++;
     if (c >= particlesQ) c = particlesQ;
@@ -102,6 +92,14 @@ const mySketch = (p) => {
 
   p.mouseClicked = addNewParticle;
   p.mouseDragged = addNewParticle;
-}
+};
 
 new p5(mySketch);
+
+window.addEventListener('load', () => {
+  const firstP = document.querySelector('#farm-container p');
+  if (firstP) {
+    firstP.style.position = 'relative';
+    firstP.style.top = '100px';
+  }
+});

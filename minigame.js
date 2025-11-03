@@ -35,20 +35,20 @@ let minigameSketch = function(p) {
   };
 
   p.setup = function() {
-    let canvas = p.createCanvas(p.windowWidth, p.windowHeight);
+    let borderSize = 2;
+    let canvas = p.createCanvas(p.windowWidth - borderSize * 2, p.windowHeight - borderSize * 2);
     canvas.parent('ant-game-section');
-    p.noStroke();
+    canvas.elt.style.border = `${borderSize}px solid black`;
+    canvas.elt.style.boxSizing = "border-box";
+
     centerX = p.width / 2;
     centerY = p.height / 2;
 
-    // Observe after p5 is ready, so p.millis() works
     const minigameContainer = document.getElementById('ant-game-section');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !minigameActive) {
           minigameActive = true;
-
-          // Start all timing here — now p.millis() works correctly
           startTime = p.millis();
 
           flashingStarted = true;
@@ -57,7 +57,7 @@ let minigameSketch = function(p) {
           getThemShown = true;
           getThemStartTime = p.millis();
 
-          observer.unobserve(minigameContainer); // stop observing after first trigger
+          observer.unobserve(minigameContainer);
         }
       });
     }, { threshold: 0.5 });
@@ -68,39 +68,57 @@ let minigameSketch = function(p) {
   p.draw = function() {
     if (!minigameActive) return;
 
-    p.background(255);
+    p.background(225);
 
     let elapsed = p.millis() - startTime;
     let inwardPhase = elapsed < 30000;
-    let speedFactor = p.map(elapsed, 0, 30000, 0.5, 2.5);
+    let speedFactor = p.map(elapsed, 0, 30000, 0.3, 2.1);
 
-    // Flashing intro
     if (flashingStarted) {
       let timeSinceFlashing = p.millis() - flashingStartTime;
       if (timeSinceFlashing < 1500) {
-        p.background(p.random() < 0.5 ? 0 : 255);
+        p.background(p.random() < 0.5 ? 0 : 225);
       } else {
         flashingStarted = false;
-        p.background(255);
+        p.background(225);
       }
     }
 
     if (endFlashingStarted) {
   let flashElapsed = p.millis() - endFlashingStartTime;
 
-  if (flashElapsed < 2000) {
-    p.background(p.random() < 0.5 ? 0 : 255);
+  if (flashElapsed > 1000 && flashElapsed < 3000) {
+    p.background(p.random() < 0.5 ? 0 : 225);
 
     for (let ant of ants) {
       ant.update(inwardPhase, speedFactor);
       ant.display();
     }
-  } else {
-    
+  } else if (flashElapsed >= 3000) {
+    // flashing done
     p.background(0);
-    return; 
-  }
 
+    if (!this.gameOverStartTime) this.gameOverStartTime = p.millis();
+    let gameOverElapsed = p.millis() - this.gameOverStartTime;
+
+    if (gameOverElapsed > 500) {
+      p.push();
+      p.fill(225, 0, 0);
+      p.textAlign(p.CENTER, p.CENTER);
+      p.textFont('Bebas Neue Bold', 'sans-serif');
+      p.textSize(150);
+      p.text("GAME OVER", p.width / 2, p.height / 2);
+      p.pop();
+    }
+
+    return; 
+  } else {
+    p.background(225);
+    for (let ant of ants) {
+      ant.update(inwardPhase, speedFactor);
+      ant.display();
+    }
+  }
 } else {
   for (let ant of ants) {
     ant.update(inwardPhase, speedFactor);
@@ -112,7 +130,7 @@ let minigameSketch = function(p) {
       let textElapsed = p.millis() - getThemStartTime;
       if (textElapsed < 1000) { 
         p.push();
-        p.fill(255, 0, 0);
+        p.fill(225, 0, 0);
         p.textAlign(p.CENTER, p.CENTER);
         p.textFont('Bebas Neue Bold', 'sans-serif');
         p.textSize(400);
@@ -163,6 +181,8 @@ let minigameSketch = function(p) {
       let remaining = maxAnts - swarmQueue.length;
       for (let i = 0; i < remaining; i++) swarmQueue.push(new Ant());
       phase6Started = true;
+      endFlashingStarted = true;
+      endFlashingStartTime = p.millis();
     }
 
     let releaseRate = phase6Started ? 50 : 8;
@@ -173,17 +193,7 @@ let minigameSketch = function(p) {
       ant.update(inwardPhase, speedFactor);
       ant.display();
     }
-
-    if (!endFlashingStarted) {
-  for (let ant of ants) {
-    let d = p.dist(ant.x, ant.y, centerX, centerY);
-    if (d < 10) {  
-      endFlashingStarted = true;
-      endFlashingStartTime = p.millis();
-      break;
-    }
-  }
-}
+  
   };
 
   p.mousePressed = function() {
@@ -199,10 +209,10 @@ let minigameSketch = function(p) {
     constructor() {
       this.frame = 0;
       this.frameCounter = 0;
-      this.frameSpeed = 3;
+      this.frameSpeed = 7;
       this.dead = false;
       this.size = p.random(20, 55);
-      this.speed = p.random(0, 2.5);
+      this.speed = p.random(0, 1.2);
       this.angleOffset = p.random(-0.3, 0.3);
 
       let side = p.floor(p.random(4));
