@@ -3,29 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/i.css">
+    <link rel="stylesheet" href="css/intro.css">
+    <link rel="stylesheet" href="css/farm.css">
+    <link rel="stylesheet" href="css/stand.css">
+    <link rel="stylesheet" href="css/frames.css">
+    <link rel="stylesheet" href="css/lookup.css">
+    <link rel="stylesheet" href="css/army.css">
+    <link rel="stylesheet" href="css/closeup.css">
+    <link rel="stylesheet" href="css/danger.css">
+    <link rel="stylesheet" href="css/walking.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/face.css">
     <title>Leiningen VS The Ants</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap" rel="stylesheet" rel="stylesheet">
 </head>
 <body>
 
-<!--intro-->
+<!--INTRO-->
+<div id="bglinewrapper">
+  <div id="antWrapper"></div>
+</div>
 <div class="title-container" id="titleContainer">
-    <!-- Red base text -->
     <div class="text">THE ANTS
       <div class="overlay" id="overlay">
-        <!-- Video masked by text below -->
-        <video id="video" src="bg2.mp4" autoplay muted loop playsinline></video>
-
-        <!-- Actual SVG text mask -->
+        <video id="video" src="assets/videos/bg2.mp4" autoplay muted loop playsinline></video>
         <div class="mask" id="mask">
           <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
             <defs>
               <mask id="textMask" x="0" y="0" width="100%" height="100%">
                 <rect width="100%" height="100%" fill="black"></rect>
-                <text x="840%" y="230%">
-                THE ANTS
-              </text>
+                <text x="840%" y="230%">THE ANTS</text>
               </mask>
             </defs>
           </svg>
@@ -35,152 +44,166 @@
   </div>
 
   <div class="credit">
-      <p style="font-family: Bebas Neue; color: rgb(213, 0, 0); font-size: 1.5rem; margin-top: 30px;">Adapted from Carl Stephanson's <em>Leiningen VS The Ants</em></p>
+      <p>Adapted from Carl Stephanson's <em>Leiningen VS The Ants</em></p>
     </div>
  
 <div class="title-spacer"></div>
-  <!-- Images -->
-   <p class="fade-line" style="font-size: 80px; color: #1f1e1e; text-align: left; margin-left: 50px; font-style: italic; font-family: Crimson Pro;">Leinengen was as stubborn as they come.</p>
-   <p class="fade-line" style="font-size: 50px; color: #1f1e1e; text-align: left; margin-left: 50px; margin-top: -20vh; font-style: italic; font-family: Crimson Pro;">He had built his farm with his own two hands, far from any road or city.</p>
-   
-     <div id="farm-container" style="position: relative; height: 180vh; overflow: hidden; margin-top: -10vh;">
-          <p style="font-size: 35px; color: #1f1e1e; text-align: right; margin-right: 50px; padding-bottom: 40vh; padding-top: 20vh; font-style: italic; font-family: Crimson Pro;">
-          <span class="fade-line"> The jungle surrounded him on every side<br>And Leinengan's farm stood very</span><span class="keep-visible" style="color: rgb(199, 26, 26); margin-left: 5px;">still</span>.</p>
-    <img id="farm" src="/Nikoants/farm.jpeg" alt="farm" 
-       style= "width: 1000px; height: auto; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid black; z-index: 2; position: absolute;">
-     </div>
 
-<section id="stand-section" style="position: relative; height: 195vh; text-align: center; background: white; overflow: hidden;">
-
-  <!-- Top text: above bottom text but below image -->
-  <h3 id="text-top" 
-      style="font-size: 130px; font-family: Bebas Neue; color: #1f1e1e; margin-top: 15vh; position: relative; z-index: 1;">
-    Wait<br>What's down there?
-  </h3>
-
-  <!-- Bottom text: behind image -->
-  <h3 id="text-bottom" 
-      style="font-size: 250px; font-family: Bebas Neue; color: #c30000; 
-             opacity: 0; 
-             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -20px);
-             z-index: 0;">
-    An Ant?
-  </h3>
-
-  <!-- Sticky container for image -->
-  <div style="position: sticky; top: 0; height: 100vh; z-index: 2;">
-    <img id="stand" src="/Nikoants/leinengan.jpeg" alt="Leiningen standing"
-         style="width: 1000px; height: auto; display: block; margin: 0 auto; border: 2px solid black; position: relative;">
-  </div>
-
-</section>
-
-
-  <img id="frames" src="/Nikoants/frame1.jpeg" alt="frames">
-  <p>One<br>Small<br>Ant</p>
-  
-  <!--Look up (in frames)-->
-  <div class="lookup-container">
-  <div id="fade-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; pointer-events: none;"></div>
-  <h1 class="lookup-text">LOOK UP!</h1> </div>
-  <!--<div style="height: 1000px;"></div>-->
-     
-
-  <!--army-->
-  <div class="img-magnifier-container">
-    <img id="army-image" src="/Nikoants/army.jpeg" alt="army">
-  </div>
-  <h2 style="font-family: Crimson; font-size: 50px;"; >Ten miles long, two miles wide - ants, nothing but ants!</h2>
-
-  <div class="fade-top"></div>
-<div class="fade-bottom"></div>
-  
-  <!--They're coming-->
-
-  <div id="rainContainer" style="position: relative; width: 100%; height: 150vh; overflow: hidden;">
-  <img id="closeup-image" src="/Nikoants/upclose.jpeg" alt="upclose"
-       style="position: absolute; top: 10%; left: 22%; width: 800px; height: auto; border: 2px solid black; object-fit: cover; pointer-events: none; z-index: 2;" />
-  <h2 style="position: absolute; top: 25%; left: 50%; transform: translateX(-50%);color: #000; z-index: 3; 
-             font-size: 40px">And every single one of them,<br> a fiend from hell.</h2>
+<!-- FARM -->
+<div id="farm-container">
+  <audio id="farm-audio" src="assets/audio/jungle.mp3" autoplay muted loop></audio>
+  <p class="typewriter" data-text="Leiningen was as stubborn as they come."></p>
+  <p class="typewriter" style="padding-left: 150px;" data-text="He had built his farm with his own two hands, far from any road or city."></p>
+  <img id="farm" src="assets/drawings/farm.jpeg" alt="farm">
+  <p class="typewriter" style="padding-left: 200px;" data-text="The jungle surrounded him on every side and Leiningen's farm stood very still."></p>
 </div>
 
 
 
-  <!--let them come-->
-  <h1 style= "font-size: 80px;  z-index: 1">Let them come!</h1>
-  <img id="shovel" src="/Nikoants/shovel.jpeg" alt="shovel" 
-       style= "width: 700px; height: auto; display: block; margin: 40px auto; border: 2px solid black;  z-index: 1;">
-      
-       
-
-  <!--Moat scene-->
-  <div id="moat-scene"></div>
-
-    <!-- Minigame scene -->
-  <div style="text-align: center; padding-top: 20%; height: 100vh">
-    <h1 style="font-size: 38px;">Trigger Warning: Flashing Lights<br>CLICK ON THE ANTS TO STAY ALIVE<br>⬇</h1>
+<!-- STAND OVER -->
+<section id="stand-section">
+  <h3 id="text-top">Wait<br>What's down there?</h3>
+  <h3 id="text-bottom">An Ant?</h3>
+  <div class="stand-wrapper">
+    <img id="stand" src="assets/drawings/leinengan.jpeg" alt="Leiningen standing">
   </div>
-  <div id="ant-game-section"></div>
+</section>
 
-  <!--eaten-->
-  <img id="hand" src="/Nikoants/hand.jpeg" alt="hand" 
-       style= "width: 1000px; height: auto; display: block; margin: 80px auto; border: 2px solid black;">
+<!-- FRAMES -->
+<section id="frames-section" style="min-height:100vh; align-items:center; justify-content:center;">
+  <img id="frames" src="/assets/drawings/frame1.jpeg" alt="frames">
+  <audio id="chat-audio" src="/assets/audio/chatting.mp3" preload="auto"></audio>
+  <audio id="squished-audio" src="/assets/audio/squish.mp3" preload="auto"></audio>
 
-
-
-  <div id="face-container">
-    <img id="face" src="/Nikoants/face.jpeg" alt="face"
-         style="width: 1000px; height: auto; display: block; border: 2px solid black; will-change: width, position;">
+ <!-- frames-specific corner icon (positioned relative to the frames image only) -->
+ <div id="frames-badge" class="frames-badge" aria-hidden="true">
+    <img id="frames-badge-img" src="assets/images/i.png" alt="">
   </div>
-  <div id="face-flash-overlay" style="
-      position:absolute;
-      top:0; left:0;
-      width:100%; height:100%;
-      pointer-events:none;
-      background-color:transparent;
-      z-index:1000;
-  "></div>
-  <div style="height: 2000px;"></div> 
+
+  <div id="frames-row">
+    <span id="frames-left">one</span>
+    <span id="frames-center">small</span>
+    <span id="frames-right">ant</span>
+  </div>
+</section>
+
+<!--Look up (in frames.js)-->
+<div class="lookup-container">
+  <div id="fade-overlay"></div>
+  <h1 class="lookup-text">LOOK UP!</h1>
+</div>
+     
+
+<!--army-->
+<div class="army-container show-corner" data-corner-img="assets/images/i.png">
+  <audio id="army-audio" src="/assets/audio/army.mp3" autoplay muted loop></audio>
+    <img id="army-image" src="assets/drawings/army.jpeg" alt="army">
+</div>
+<h2 style="font-family: Crimson; font-size: 50px; margin-top: 100px;"; >Ten miles long, two miles wide</h2>
+<h2 style="font-family: Crimson; font-size: 80px; margin-top: -50px;"><i>Ants, nothing but ants!</i></h2>
+
+<div class="fade-top"></div>
+<div class="fade-bottom"></div>
   
+  <!--up close-->
+<div id="upcloseContainer">
+  <img id="closeup-image" src="assets/drawings/upclose.jpeg" alt="upclose"/>
+  <h2 style="color: #1f1f1f; padding-top: 80px; z-index: 3; font-size: 140px; max-width: 40%; line-height: 1;">
+    And every single one of them,<br> a fiend from hell.
+  </h2>
+</div>
+
+<!--they're coming-->
+<div id="danger-container">
+  <div id="coming-wrapper"></div>
+</div>
+
+<!--walking-->
+<div class="section-wrapper" id="walking-section">
+  <div class="video-wrapper">
+    <audio id="eating-audio" src="/assets/audio/eating.mp3" muted loop></audio>
+    <video
+      src="assets/videos/walkinggg.mp4"
+      autoplay muted loop playsinline
+      style="object-fit: cover; width:100%; height:100%;"
+    ></video>
+  </div>
+
+  <div class="text-scroll">
+  <p class="line line-left">"Leiningen, we need to get out of here now!"</p>
+  <p class="line line-right">
+    <span class="big-no">“NO.</span><br>
+    <span class="line-break">LET THEM COME.</span><br>
+    <span class="line-break">There is no natural element that can defeat the human mind.</span><br>
+    <span class="line-break">I'll send these vermin back to the hell where they belong.”</span>
+  </p>
+</div>
+</div>
+    
+
+<!--Moat scene-->
+<div id="moat-scene"></div>
+
+<!-- Minigame scene -->
+<div class="show-corner" data-corner-img="assets/images/i.png" id="ant-game-section"></div>
+
+
+<!--eaten css in face-->
+<p class="typewriter" data-text="The ants swarmed from his feet upward,"
+   style="font-family: Crimson; font-size: 40px; text-align: left; margin-left: 300px;"></p>
+
+<p class="typewriter" data-text="each bite burning like fire."
+   style="font-family: Crimson; font-size: 40px; margin-top: -70px; margin-left: 650px; text-align: left; "></p>
+
+<img id="hand" src="assets/drawings/hand.jpeg" alt="hand" 
+  style="width: 1000px; height: auto; display: block; margin: 80px auto; border: 2px solid black;">
+
+<p class="typewriter" data-text="And in a few minutes, Leinengen was gone, body and all."
+   style="font-family: Crimson; font-size: 40px; text-align: left; margin-left: 250px;"></p>
+
+<div id="face-container">
+  <img id="face" src="assets/drawings/face.jpeg" alt="face">
+</div>
+<div id="face-flash-overlay"></div>
+  
+<div id="interactionIcon">
+  <img id="interactionImage" src="" alt="corner icon">
+</div>
 
 
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="intro/intro.js"></script>
-  <script src="parallax.js"></script>
-  <script src="lines.js"></script>
-  <script src="frames.js"></script>
-  <script src="army.js"></script>
-  <script src="bg.js"></script>
-  <script src="rain.js"></script>
-  <script src="minigame.js"></script>
-  <script src="moat.js"></script>
-  <!--<script src="upclose.js"></script>-->
-  <script src="face.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="js/i.js"></script>
+  <script src="js/intro.js"></script>
+  <script src="js/farm.js"></script>
+  <script src="js/parallax.js"></script>
+  <script src="js/lines.js"></script>
+  <script src="js/frames.js"></script>
+  <script src="js/army.js"></script>
+  <script src="js/bg.js"></script>
+  <script src="js/danger.js"></script>
+  <script src="js/walk.js"></script>
+  <script src="js/minigame.js"></script>
+  <script src="js/moat.js"></script>
+  <script src="js/face.js"></script>
+  <script src="js/typewriter.js"></script>
 
 <script>
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
 
-  function scrollToTopNow() {
-    window.scrollTo(0, 0);
-    requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, 0)));
-    setTimeout(() => window.scrollTo(0, 0), 50);
-  }
+  /* Back to Begin.html on reload */
+  if (performance.navigation.type === performance.navigation.TYPE_RELOAD ||
+        document.referrer === "" ||
+        !document.referrer.includes(window.location.hostname)) {
+        window.location.replace("begin.html");
+    }
 
-  window.addEventListener('load', () => {
-    scrollToTopNow();
-  });
-
-  window.addEventListener('pageshow', (event) => {
-    scrollToTopNow();
-  });
-
-  window.addEventListener('beforeunload', () => {
-    window.scrollTo(0, 0);
+ window.addEventListener("scroll", () => {
+    document.documentElement.style.setProperty(
+      "--scroll",
+      window.scrollY
+    );
   });
 </script>
   
