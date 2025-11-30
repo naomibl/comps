@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Begin</title>
+
+    <style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: black;
+        color: white;
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 1px;
+    }
+
+    .container {
+        text-align: center;
+        animation: fadeIn 1s ease forwards;
+        opacity: 0;
+    }
+
+    h1 {
+        font-size: 60px;
+        margin-bottom: 20px;
+        font-family: 'Bebas Neue', sans-serif;
+    }
+    
+    h2 {
+        font-family: "Crimson Pro", serif;
+        font-weight: 50;
+    }
+
+    button {
+        margin-top: 20px;
+        font-size: 24px;
+        padding: 12px 28px;
+        border: 2px solid white;
+        background: transparent;
+        font-family: "Crimson Pro", serif;
+        color: white;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: 0.3s ease;
+    }
+
+    button:hover {
+        background: white;
+        color: black;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Instructions</h1>
+        <img src="/assets/images/i.png" alt="icon" style="width: 80px;">
+        <h2>Scenes that feature a red "i" icon in the top right are <span style="color: rgb(242, 75, 75)">interactive</span>.</h2>
+        <h2>User action such as mouse movement, hovering, holding, and clicking may be neccessary.</h2>
+        <h2>Warning: Some scenes include flashing lights.</h2>
+        <h2 style="padding-top: 25px;">Scroll slowly for the best experience.</h2>
+        <button onclick="window.location.href='index.html'">
+        Begin
+        </button>
+    </div>
+</body>
+</html>

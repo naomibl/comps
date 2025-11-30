@@ -1,0 +1,21 @@
+#ant-game-section {
+  display: block;
+  margin: 0 auto;
+  height: auto;
+  margin-bottom: 100px; 
+}
+/*for moat scene*/
+#moat-scene {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+#moat-scene canvas {
+  display: block;
+  margin: 0;
+  padding: 0;
+}

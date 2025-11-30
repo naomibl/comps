@@ -1,0 +1,41 @@
+#stand-section {
+    position: relative;
+    height: 220vh;
+    text-align: center;
+    background: white;
+    overflow: hidden;
+}
+
+#text-top {
+    font-size: 170px;
+    font-family: Bebas Neue;
+    color: #1f1e1e;
+    position: relative;
+    z-index: 1;
+}
+
+#text-bottom {
+    font-size: 270px;
+    font-family: Bebas Neue;
+    color: #c30000; 
+    opacity: 0; 
+    position: absolute;
+    top: 60%; left: 50%; transform: translate(-50%, 50px);
+    z-index: 0;
+}
+
+.stand-wrapper {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 2;
+}
+
+#stand {
+    width: 1200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border: 2px solid black;
+    position: relative;
+}

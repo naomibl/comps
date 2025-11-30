@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 300vh;
+  transition: background-color 3s ease;
+  padding: 0;
+  overflow: auto;
+  background: black;
+  overflow-x: hidden;
+}
+
+p, h3, h2, h1 {
+  text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+  margin-top: 35px;
+  margin-bottom: 90px;
+}
