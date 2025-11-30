@@ -1,0 +1,26 @@
+#interactionIcon {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: auto;
+  z-index: 999999;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+  transition: opacity 200ms ease, transform 200ms ease;
+  pointer-events: none;
+}
+
+#interactionIcon.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+#interactionIcon img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  box-shadow: none !important;
+  filter: none !important;
+}

@@ -1,0 +1,68 @@
+#frames {
+    width: 1000px;
+    height: auto;
+    display: block;
+    margin: 40px auto;
+    border: 2px solid black;
+    object-fit: cover; 
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    cursor: grab;
+}
+
+#frames:active {
+    cursor: grabbing;
+}
+
+#frames-row {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%; max-width:1200px;
+    margin:40px auto;
+    padding:0 120px;
+}
+
+#frames-left {
+    font-size:42px;
+    font-family: 'Crimson Pro', serif;
+    color:#1f1e1e;
+}
+
+#frames-center {
+    font-size:42px;
+    font-family: 'Crimson Pro', serif;
+    color:#1f1e1e;
+    transform:translateY(6px);
+}
+
+#frames-right {
+    font-size:42px;
+    font-family: 'Crimson Pro', serif;
+    color:#1f1e1e;
+    text-align:right;
+}
+
+#frames-section { position: relative; } 
+#frames-section .frames-badge {
+  position: absolute;
+  top: 10px;
+  right: 225px;
+  height: 35px;
+  z-index: 20;           
+  opacity: 0;
+  transform: translateY(-6px) scale(.98);
+  transition: opacity .22s ease, transform .22s ease;
+  pointer-events: auto;       
+}
+
+#frames-section .frames-badge.visible {
+  opacity: 1;
+  transform: none;
+}
+
+#frames-section .frames-badge img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}

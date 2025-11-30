@@ -1,0 +1,30 @@
+#face-container {
+    position: relative;
+    width: 100%;
+}
+
+#face {
+    width: 800px;
+    height: auto;
+    display: block; 
+    border: 2px solid black; 
+    will-change: width, position;
+}
+
+#face-flash-overlay {
+    position: absolute; 
+    top:0; 
+    left:0; 
+    width:100%; 
+    height:100%; 
+    pointer-events:none; 
+    background-color:transparent; 
+    z-index:1000;
+}
+
+.typewriter {
+  display: block;
+  min-height: 60px;
+  overflow: visible;
+  white-space: nowrap;
+}

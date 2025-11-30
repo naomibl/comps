@@ -1,0 +1,29 @@
+#army-image {
+  width: 100%;
+  display: block;
+  margin: 0 0 50px 0;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.army-container {
+  position: relative;
+}
+
+.army-lens {
+  position: absolute;
+  border: 2px solid #000;
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+
+.army-container img {
+  display: block;
+  cursor: none;
+  width: 100%; 
+}
