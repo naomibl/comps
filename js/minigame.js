@@ -27,9 +27,9 @@ let minigameSketch = function(p) {
 
   p.preload = function() {
     for (let i = 0; i < 3; i++) {
-      antFrames[i] = p.loadImage(`assets/images/a${i + 1}.png`);
+      antFrames[i] = p.loadImage(`../assets/images/a${i + 1}.png`);
     }
-    splatImg = p.loadImage("assets/images/splaat.png");
+    splatImg = p.loadImage("../assets/images/splaat.png");
   };
 
   p.setup = function() {

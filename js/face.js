@@ -73,7 +73,7 @@ let face = function(p) {
 
   p.preload = function() {
     for (let i = 0; i < 3; i++) {
-      finalAntFrames[i] = p.loadImage(`/assets/images/a${i + 1}.png`);
+      finalAntFrames[i] = p.loadImage(`../assets/images/a${i + 1}.png`);
     }
   };
 
