@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Begin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:wght@400;500&display=swap" rel="stylesheet">
 
     <style>
     body {
@@ -24,6 +25,11 @@
         opacity: 0;
     }
 
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
     h1 {
         font-size: 60px;
         margin-bottom: 20px;
@@ -35,8 +41,12 @@
         font-weight: 50;
     }
 
-    button {
-        margin-top: 20px;
+    .button {
+        text-align: center; 
+        margin-top: 40px;
+    }
+
+    .button input[type="submit"] {
         font-size: 24px;
         padding: 12px 28px;
         border: 2px solid white;
@@ -48,14 +58,9 @@
         transition: 0.3s ease;
     }
 
-    button:hover {
+    .button input[type="submit"]:hover {
         background: white;
         color: black;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to   { opacity: 1; transform: translateY(0); }
     }
     </style>
 </head>
@@ -68,9 +73,9 @@
         <h2>User action such as mouse movement, hovering, holding, and clicking may be neccessary.</h2>
         <h2>Warning: Some scenes include flashing lights.</h2>
         <h2 style="padding-top: 25px;">Scroll slowly for the best experience.</h2>
-        <button onclick="window.location.href='./index.html'">
-        Begin
-        </button>
+        <form class="button" action="index.html">
+            <input type="submit" value="Begin" />
+        </form>
     </div>
 </body>
 </html>
