@@ -23,9 +23,9 @@ squishText.style.pointerEvents = 'none';
 squishText.style.opacity = '0';
 image.parentElement.appendChild(squishText);
 
-const cover = "../assets/drawings/frame1.jpeg";
-const frames = ["../assets/drawings/frame1.jpeg", "../assets/drawings/frame3.jpeg", "../assets/drawings/frame2.jpeg"];
-const squished = "../assets/drawings/squish.jpg"; 
+const cover = "assets/drawings/frame1.jpeg";
+const frames = ["assets/drawings/frame1.jpeg", "assets/drawings/frame3.jpeg", "assets/drawings/frame2.jpeg"];
+const squished = "assets/drawings/squish.jpg"; 
 let intervalId = null;
 let frameIndex = 0;
 let steps = 0; 
