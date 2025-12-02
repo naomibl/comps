@@ -193,11 +193,9 @@
 <script>
 
   /* Back to Begin.html on reload */
-  if (performance.navigation.type === performance.navigation.TYPE_RELOAD ||
-        document.referrer === "" ||
-        !document.referrer.includes(window.location.hostname)) {
-        window.location.replace("begin.html");
-    }
+  if (performance.getEntriesByType("navigation")[0].type === "reload") {
+    window.location.replace("begin.html");
+  }
 
  window.addEventListener("scroll", () => {
     document.documentElement.style.setProperty(
