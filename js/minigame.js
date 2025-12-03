@@ -25,13 +25,6 @@ let minigameActive = false;
 
 let minigameSketch = function(p) {
 
-  p.preload = function() {
-    for (let i = 0; i < 3; i++) {
-      antFrames[i] = p.loadImage(`assets/images/a${i + 1}.png`);
-    }
-    splatImg = p.loadImage("assets/images/splaat.png");
-  };
-
   p.setup = function() {
     let borderSize = 3;
     let canvas = p.createCanvas(p.windowWidth - borderSize * 2, p.windowHeight - borderSize * 2);
@@ -44,6 +37,15 @@ let minigameSketch = function(p) {
 
     centerX = p.width / 2;
     centerY = p.height / 2;
+
+    for (let i = 0; i < 3; i++) {
+      let img = new Image();
+      img.src = `assets/images/a${i + 1}.png`;
+      antFrames.push(img);
+    }
+
+    splatImg = new Image();
+    splatImg.src = "assets/images/splaat.png";
 
     const minigameContainer = document.getElementById('ant-game-section');
     const observer = new IntersectionObserver((entries) => {
@@ -68,7 +70,7 @@ let minigameSketch = function(p) {
 
     let elapsed = p.millis() - startTime;
     let inwardPhase = elapsed < 30000;
-    let speedFactor = p.map(elapsed, 0, 30000, 0.7, 3.0);
+    let speedFactor = p.map(elapsed, 0, 30000, 0.5, 3.0);
 
     if (getThemShown) {
       let textElapsed = p.millis() - getThemStartTime;
@@ -108,19 +110,16 @@ let minigameSketch = function(p) {
       phase6Started = true; 
     }
 
-    // Release from queue
     let releaseRate = phase6Started ? 50 : 8;
     for (let i = 0; i < releaseRate && swarmQueue.length > 0; i++)
       ants.push(swarmQueue.shift());
 
-    // Draw dead ants first
     for (let ant of ants) {
       if (ant.dead) ant.display();
     }
 
     if (endFlashingStarted) {
       let flashElapsed = p.millis() - endFlashingStartTime;
-      const audio = document.getElementById("farm-audio");
       if (flashElapsed > 2000 && flashElapsed < 4000) {
         if (flashElapsed % 200 < 100) p.background(0); 
       } else if (flashElapsed >= 4000) {
@@ -192,7 +191,7 @@ let minigameSketch = function(p) {
         p5.Vector.mult(spiral, this.speed)
       );
 
-      velocity.setMag(distance < 50 ? this.speed * 1 : this.speed * speedFactor);
+      velocity.setMag(distance < 200 ? this.speed * 1 : this.speed * speedFactor);
 
       if (!firstAntReachedCenter && distance < 60) {
         firstAntReachedCenter = true;
@@ -206,7 +205,7 @@ let minigameSketch = function(p) {
       let speedBasedFrameRate = p.map(this.speed, 0.1, 1.3, 6, 3);
       this.frameCounter++;
       if (this.frameCounter >= speedBasedFrameRate) {
-        this.frame = (this.frame + 1) % antFrames.length;
+        this.frame = (this.frame + 1) % 3; 
         this.frameCounter = 0;
       }
     }
@@ -218,8 +217,8 @@ let minigameSketch = function(p) {
       let dy = this.y - this.prevY;
       p.rotate(p.atan2(dy, dx));
       p.imageMode(p.CENTER);
-      if (!this.dead) p.image(antFrames[this.frame], 0, 0, this.size, this.size);
-      else p.image(splatImg, 0, 0, this.size, this.size);
+      if (!this.dead && antFrames[this.frame].complete) p.drawingContext.drawImage(antFrames[this.frame], -this.size/2, -this.size/2, this.size, this.size);
+      else if (this.dead && splatImg.complete) p.drawingContext.drawImage(splatImg, -this.size/2, -this.size/2, this.size, this.size);
       p.pop();
     }
 
