@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const img = document.getElementById("face");
   const container = document.getElementById("face-container");
-  const initialWidth = 800; // starting image width
-  const scaleDistance = 600; // how far to scroll to reach max scale
+  const initialWidth = 800; 
+  const scaleDistance = 600; 
 
   let faceFlashTimer = null;
   const scheduleFaceFlash = (delay = 2000) => {
@@ -71,36 +71,37 @@ let face = function(p) {
   let flashingStarted = false;
   let flashingStartTime = 0;
 
-  p.preload = function() {
-    for (let i = 0; i < 3; i++) {
-      finalAntFrames[i] = p.loadImage(`assets/images/a${i + 1}.png`);
-    }
-  };
+  const antImagePaths = ['assets/images/a1.png', 'assets/images/a2.png', 'assets/images/a3.png'];
 
   p.setup = function() {
     const faceImg = document.getElementById("face");
-  const canvas = p.createCanvas(faceImg.clientWidth, faceImg.clientHeight);
-  canvas.parent(document.body); 
-  canvas.elt.style.position = "fixed"; 
-  canvas.elt.style.zIndex = "999";
-  canvas.elt.style.pointerEvents = "none";
-  
-  const updateCanvasToImage = () => {
-  const rect = faceImg.getBoundingClientRect();
-  if (rect.width === 0 && rect.height === 0) return;
+    const canvas = p.createCanvas(faceImg.clientWidth, faceImg.clientHeight);
+    canvas.parent(document.body); 
+    canvas.elt.style.position = "fixed"; 
+    canvas.elt.style.zIndex = "999";
+    canvas.elt.style.pointerEvents = "none";
 
-  p.resizeCanvas(Math.round(rect.width), Math.round(rect.height));
-  canvas.elt.style.width = `${Math.round(rect.width)}px`;
-  canvas.elt.style.height = `${Math.round(rect.height)}px`;
-  canvas.elt.style.left = `${Math.round(rect.left)}px`;
-  canvas.elt.style.top = `${Math.round(rect.top)}px`;
-};
-updateCanvasToImage();
-  window.addEventListener("resize", updateCanvasToImage);
-  window.addEventListener("scroll", updateCanvasToImage, { passive: true });
-  faceImg.addEventListener("load", updateCanvasToImage);
- 
-  updateCanvasToImage();
+    const updateCanvasToImage = () => {
+      const rect = faceImg.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) return;
+
+      p.resizeCanvas(Math.round(rect.width), Math.round(rect.height));
+      canvas.elt.style.width = `${Math.round(rect.width)}px`;
+      canvas.elt.style.height = `${Math.round(rect.height)}px`;
+      canvas.elt.style.left = `${Math.round(rect.left)}px`;
+      canvas.elt.style.top = `${Math.round(rect.top)}px`;
+    };
+    updateCanvasToImage();
+    window.addEventListener("resize", updateCanvasToImage);
+    window.addEventListener("scroll", updateCanvasToImage, { passive: true });
+    faceImg.addEventListener("load", updateCanvasToImage);
+
+    antImagePaths.forEach(path => {
+      p.loadImage(path, (img) => {
+        finalAntFrames.push(img);
+      });
+    });
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -109,96 +110,85 @@ updateCanvasToImage();
             setTimeout(() => {
               swarmActive = true;
               p.spawnAnts();
-            }, 1000);
+            }, 4000);
           }
         });
       },
       { threshold: 0.5 }
     );
     observer.observe(faceImg);
+
     p.finalAnts = finalAnts;
   };
 
+  const maxAnts = 800;
+  const spawnInterval = 10;
+  const spawnBatch = 10;
 
-const maxAnts = 800;       // max ants
-const spawnInterval = 10;   
-const spawnBatch = 10;      // 10 ants at a time
+  p.draw = function() {
+    if (!swarmActive) return;
+    p.clear();
 
-p.draw = function() {
-  if (!swarmActive) return;
-  p.clear();
-
-  if (swarmActive && p.finalAnts.length < maxAnts) {
-    if (p.frameCount % spawnInterval === 0) {
-      for (let i = 0; i < spawnBatch; i++) {
-        p.finalAnts.push(new FinalAnt());
+    if (swarmActive && p.finalAnts.length < maxAnts) {
+      if (p.frameCount % spawnInterval === 0) {
+        for (let i = 0; i < spawnBatch; i++) {
+          p.finalAnts.push(new FinalAnt());
+        }
       }
     }
-  }
 
-  const scale = window.faceScale || 1;
+    const scale = window.faceScale || 1;
 
-  for (let ant of finalAnts) {
-    ant.update();
-    ant.display(scale);
-  }
-
-  if (window.requestFaceFlash && !flashingStarted) {
-    flashingStarted = true;
-    flashingStartTime = p.millis();
-    window.requestFaceFlash = false;
-    imageFlashIndex = 0;
-    currentImageScale = 1;
-  }
-
-  if (flashingStarted) {
-  const elapsed = p.millis() - flashingStartTime;
-
-  const flashCount = 15;      
-  const flashPeriod = 50;     
-  const totalFlashDuration = flashCount * flashPeriod;
-
-  let blackVisible = false;
-
-  if (elapsed < totalFlashDuration) {
-    const periodIndex = Math.floor(elapsed / flashPeriod);
-    blackVisible = (periodIndex % 2 === 0);
-
-    const audio = document.getElementById("farm-audio"); 
-  if (blackVisible) {
-      audio.volume = 0; 
-    } else {
-      audio.volume = 1; 
+    for (let ant of finalAnts) {
+      ant.update();
+      ant.display(scale);
     }
-  } else {
-    blackVisible = false;
-  }
 
-  if (blackVisible) {
-    p.noStroke();
-    p.fill(0);
-    p.rect(0, 0, p.width, p.height);
-  }
-
-  const endBlackDelay = 100; 
-
-  if (elapsed >= totalFlashDuration + endBlackDelay) {
-
-    if (!window.hasTriggeredEndAudio) {
-        window.hasTriggeredEndAudio = true;
-        window.dispatchEvent(new Event("face-end"));  // triggers audio stop
+    if (window.requestFaceFlash && !flashingStarted) {
+      flashingStarted = true;
+      flashingStartTime = p.millis();
+      window.requestFaceFlash = false;
     }
-    p.noStroke();
-    p.fill(0);
-    p.rect(0, 0, p.width, p.height);
-    p.textAlign(p.CENTER, p.CENTER);
-    p.textFont('Bebas Neue Bold', 'sans-serif');
-    p.textSize(100 * scale);
-    p.fill(255, 0, 0);
-    p.text("THE END", p.width / 2, p.height / 2);
-  }
-  }
-};
+
+    if (flashingStarted) {
+      const elapsed = p.millis() - flashingStartTime;
+      const flashCount = 15;
+      const flashPeriod = 50;
+      const totalFlashDuration = flashCount * flashPeriod;
+      let blackVisible = false;
+
+      if (elapsed < totalFlashDuration) {
+        const periodIndex = Math.floor(elapsed / flashPeriod);
+        blackVisible = (periodIndex % 2 === 0);
+        const audio = document.getElementById("farm-audio");
+        if (audio) audio.volume = blackVisible ? 0 : 1;
+      } else {
+        blackVisible = false;
+      }
+
+      if (blackVisible) {
+        p.noStroke();
+        p.fill(0);
+        p.rect(0, 0, p.width, p.height);
+      }
+
+      const endBlackDelay = 100;
+      if (elapsed >= totalFlashDuration + endBlackDelay) {
+        if (!window.hasTriggeredEndAudio) {
+          window.hasTriggeredEndAudio = true;
+          window.dispatchEvent(new Event("face-end"));
+        }
+        p.noStroke();
+        p.fill(0);
+        p.rect(0, 0, p.width, p.height);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.textFont('Bebas Neue Bold', 'sans-serif');
+        p.textSize(100 * scale);
+        p.fill(255, 0, 0);
+        p.text("THE END", p.width / 2, p.height / 2);
+      }
+    }
+  };
 
   class FinalAnt {
     constructor() {
@@ -206,9 +196,10 @@ p.draw = function() {
       this.frameCounter = 0;
       this.frameSpeed = 3;
       this.size = p.random(15, 30);
+
       const faceImg = document.getElementById("face");
-    const imgWidth = faceImg.clientWidth;
-    const imgHeight = faceImg.clientHeight;
+      const imgWidth = faceImg.clientWidth;
+      const imgHeight = faceImg.clientHeight;
 
       const edge = p.floor(p.random(4));
       switch (edge) {
@@ -239,6 +230,7 @@ p.draw = function() {
     }
 
     display(scale = 1) {
+      if (!finalAntFrames.length) return; 
       p.push();
       p.translate(this.originalX * scale, this.originalY * scale);
       p.rotate(this.angle);
@@ -251,7 +243,7 @@ p.draw = function() {
 
   p.spawnAnts = function() {
     if (p.finalAnts.length === 0) {
-      for (let i = 0; i < 200; i++) {
+      for (let i = 0; i < 100; i++) {
         p.finalAnts.push(new FinalAnt());
       }
     }
