@@ -34,10 +34,10 @@ let moatScene = function(p) {
   p.preload = function() {
     for (let i = 1; i <= numAnts; i++) {
       let imgNum = (i % baseAnts) + 1;
-      antImgs.push(p.loadImage(`assets/images/a${imgNum}.png`));
+      antImgs.push(p.loadImage(`../assets/images/a${imgNum}.png`));
     }
   };
-
+  
   p.setup = function() {
     let canvas = p.createCanvas(p.windowWidth, 3200);
     canvas.parent("moat-scene");
