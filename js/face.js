@@ -76,7 +76,7 @@ let face = function(p) {
   p.setup = function() {
     const faceImg = document.getElementById("face");
     const canvas = p.createCanvas(faceImg.clientWidth, faceImg.clientHeight);
-    canvas.parent(document.body); 
+    canvas.parent(document.body);
     canvas.elt.style.position = "fixed"; 
     canvas.elt.style.zIndex = "999";
     canvas.elt.style.pointerEvents = "none";
@@ -84,7 +84,6 @@ let face = function(p) {
     const updateCanvasToImage = () => {
       const rect = faceImg.getBoundingClientRect();
       if (rect.width === 0 && rect.height === 0) return;
-
       p.resizeCanvas(Math.round(rect.width), Math.round(rect.height));
       canvas.elt.style.width = `${Math.round(rect.width)}px`;
       canvas.elt.style.height = `${Math.round(rect.height)}px`;
@@ -96,11 +95,11 @@ let face = function(p) {
     window.addEventListener("scroll", updateCanvasToImage, { passive: true });
     faceImg.addEventListener("load", updateCanvasToImage);
 
-    antImagePaths.forEach(path => {
-      p.loadImage(path, (img) => {
-        finalAntFrames.push(img);
-      });
-    });
+    for (let path of antImagePaths) {
+      const img = new Image();
+      img.src = path;
+      finalAntFrames.push(img);
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -230,13 +229,14 @@ let face = function(p) {
     }
 
     display(scale = 1) {
-      if (!finalAntFrames.length) return; 
+      if (!finalAntFrames.length) return;
       p.push();
       p.translate(this.originalX * scale, this.originalY * scale);
       p.rotate(this.angle);
       p.imageMode(p.CENTER);
       const s = this.size * scale;
-      p.image(finalAntFrames[this.frame], 0, 0, s, s);
+      if (finalAntFrames[this.frame].complete)
+        p.drawingContext.drawImage(finalAntFrames[this.frame], -s/2, -s/2, s, s);
       p.pop();
     }
   }
