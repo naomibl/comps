@@ -1,20 +1,20 @@
 let moatScene = function(p) {
-  let cols = ['#A7EFFF', '#4DD3FF', '#0099CC', '#006699', '#00334D'];
+  const cols = ['#A7EFFF', '#4DD3FF', '#0099CC', '#006699', '#00334D'];
   let agents = [];
   let particleLayer;
   let started = false;
   let antImgs = [];
-  let numAnts = 50;
-  let baseAnts = 3;
-  let antBridgeData = [];
-  let bridgeY = 2650;
-  let bridgeStartX = 0;
-  let antWidth = 100;
-  let antHeight = 100;
-  let spacingFactor = 0.3;
+  const numAnts = 50;
+  const baseAnts = 3;
+  const antBridgeData = [];
+  const bridgeY = 2650;
+  const bridgeStartX = 0;
+  const antWidth = 100;
+  const antHeight = 100;
+  const spacingFactor = 0.3;
 
-  let firstText = { content: '"OPEN THE DAM!"', baseY: 350, x: 0, size: 250 };
-  let texts = [
+  const firstText = { content: '"OPEN THE DAM!"', baseY: 350, x: 0, size: 250 };
+  const texts = [
     { content: "Water spilled over the fields,", baseY: 900, x: 800, size: 30 },
     { content: "circling the farm like a moat around a castle.", baseY: 1000, x: 1000, size: 40 },
     { content: "Twelve feet deep.", baseY: 1300, x: 300, size: 60 },
@@ -25,26 +25,22 @@ let moatScene = function(p) {
     { content: "He saw the brilliant,\ncold eyes,\nand the razor-edged mandibles,\nof this infinite horde.", baseY: 2250, x: 1300, size: 60 },
     { content: "and one by one", baseY: 2250, x: 200, size: 50 },
     { content: "they swarmed over the fallen", baseY: 2450, x: 600, size: 40 },
-    { content: "to form a living bridge", baseY: 2525, x: 620, size: 90 },
+    { content: "to form a living bridge", baseY: 2525, x: 690, size: 90 },
     { content: "over the moat.", baseY: 2625, x: 1020, size: 60 }
   ];
 
-  let parallaxFactor = 0.3;
+  const parallaxFactor = 0.3;
 
   function loadAntImg(i) {
-  let imgNum = (i % baseAnts) + 1;
-  return p.loadImage(`../assets/images/a${imgNum}.png`, 
-    (img) => {
-      antImgs[i] = img; // store once loaded
-    },
-    (err) => {
-      console.warn("Image failed to load:", err);
-    }
-  );
-}
+    const imgNum = (i % baseAnts) + 1;
+    const img = new Image();
+    img.src = `assets/images/a${imgNum}.png`;
+    img.onload = () => antImgs[i] = img;
+    img.onerror = () => console.warn(`Failed to load a${imgNum}.png`);
+  }
 
   p.setup = function() {
-    let canvas = p.createCanvas(p.windowWidth, 3200);
+    const canvas = p.createCanvas(p.windowWidth, 3200);
     canvas.parent("moat-scene");
 
     firstText.x = p.width / 2;
@@ -55,29 +51,29 @@ let moatScene = function(p) {
     p.noiseSeed(0);
     p.randomSeed(0);
 
-    for (let i = 0; i < 8000; i++) {
+    for (let i = 0; i < 3000; i++) {
       agents.push(new Agent());
       agents[i].display(particleLayer);
     }
 
-    let amplitude = 400;
-    let frequency = p.PI / (numAnts - 1);
+    const amplitude = 400;
+    const frequency = p.PI / (numAnts - 1);
     for (let i = 0; i < numAnts; i++) {
-      let spacing = antWidth * spacingFactor;
-      let x = bridgeStartX + i * spacing;
-      let y = bridgeY - p.sin(i * frequency) * amplitude;
-      let dy = -p.cos(i * frequency) * amplitude * frequency;
-      let dx = spacing;
-      let angle = p.atan2(dy, dx);
-      let vOffset = [-15, 0, 15][Math.floor(p.random(0, 3))];
+      const spacing = antWidth * spacingFactor;
+      const x = bridgeStartX + i * spacing;
+      const y = bridgeY - p.sin(i * frequency) * amplitude;
+      const dy = -p.cos(i * frequency) * amplitude * frequency;
+      const dx = spacing;
+      const angle = p.atan2(dy, dx);
+      const vOffset = [-15, 0, 15][Math.floor(p.random(0, 3))];
       antBridgeData.push({ x: x, y: y + vOffset, angle: angle });
-      antImgs.push(null); // placeholder
+      antImgs.push(null); 
       loadAntImg(i);
     }
 
     p.noLoop();
 
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
         started = true;
         p.loop();
@@ -91,41 +87,36 @@ let moatScene = function(p) {
   p.draw = function() {
     if (!started) return;
 
-    let rect = document.querySelector('#moat-scene').getBoundingClientRect();
-    let scrollY = -rect.top; 
+    const rect = document.querySelector('#moat-scene').getBoundingClientRect();
+    const scrollY = -rect.top;
 
     if (scrollY < 1500) {
-      let fadeAmount = p.map(scrollY, 200, 500, 0, 255, true);
+      const fadeAmount = p.map(scrollY, 200, 500, 0, 255, true);
       particleLayer.fill(0, fadeAmount * 0.02);
       particleLayer.noStroke();
       particleLayer.rect(0, 0, p.width, p.height);
-    } else if (scrollY >= 1500) {
-      let whiteFade = p.map(scrollY, 1500, 1800, 0, 255, true);
+    } else {
+      const whiteFade = p.map(scrollY, 1500, 1800, 0, 255, true);
       particleLayer.fill(255, whiteFade * 0.01);
       particleLayer.noStroke();
       particleLayer.rect(0, 0, p.width, p.height);
     }
 
-    let redCols = ['#FF0000', '#FF7F7F', '#A50000', '#8A0303'];
-
-    for (let agent of agents) {
+    const redCols = ['#FF0000', '#FF7F7F', '#A50000', '#8A0303'];
+    agents.forEach(agent => {
       agent.update();
-
       if (scrollY >= 1800) {
-        let t = p.map(scrollY, 1800, 2200, 0, 1, true);
-        let targetCol = p.color(redCols[p.floor(p.random(redCols.length))]);
-        let currentCol = agent.col;
-        agent.col = p.lerpColor(currentCol, targetCol, t);
+        const t = p.map(scrollY, 1800, 2200, 0, 1, true);
+        const targetCol = p.color(redCols[p.floor(p.random(redCols.length))]);
+        agent.col = p.lerpColor(agent.col, targetCol, t);
       }
-
       agent.display(particleLayer);
-    }
+    });
 
     p.image(particleLayer, 0, 0);
 
-    let yFirst = firstText.baseY - scrollY * parallaxFactor;
-    let textsAlpha = p.map(scrollY, 0, 200, 255, 0, true);
-
+    const yFirst = firstText.baseY - scrollY * parallaxFactor;
+    const textsAlpha = p.map(scrollY, 0, 200, 255, 0, true);
     p.push();
     p.translate(firstText.x, yFirst);
     p.textFont('Bebas Neue Bold', 'sans-serif');
@@ -139,23 +130,20 @@ let moatScene = function(p) {
     p.text(firstText.content, 0, 0);
     p.pop();
 
-    for (let t of texts) {
+    texts.forEach(t => {
       let x = t.x;
       let y;
-
       if (["and one by one", "they swarmed over the fallen", "to form a living bridge", "over the moat."].includes(t.content)) {
-        let startX = p.width + 170;
-        let progress = p.map(scrollY, t.baseY - 900, t.baseY - 200, 0, 1, true);
-        progress = p.constrain(progress, 0, 1); 
+        const startX = p.width + 170;
+        const progress = p.constrain(p.map(scrollY, t.baseY - 900, t.baseY - 200, 0, 1), 0, 1);
         x = p.lerp(startX, t.x, progress);
         y = t.baseY;
       } else {
-        let depthFactor = p.map(t.size, 20, 150, 0.1, 0.6, true);
+        const depthFactor = p.map(t.size, 20, 150, 0.1, 0.6, true);
         y = t.baseY - scrollY * depthFactor;
       }
 
-      let textAlpha = p.map(scrollY, t.baseY - 1100, t.baseY, 0, 255, true);
-
+      const textAlpha = p.map(scrollY, t.baseY - 1100, t.baseY, 0, 255, true);
       p.push();
       p.translate(x, y);
       p.scale(1, 1.1);
@@ -163,31 +151,25 @@ let moatScene = function(p) {
       p.textSize(t.size);
       p.textAlign(t.content.startsWith("He saw the brilliant,") ? p.RIGHT : p.CENTER, p.CENTER);
       p.fill(["and one by one", "they swarmed over the fallen", "to form a living bridge", "over the moat."].includes(t.content) ? 0 : 255, textAlpha);
-
-      if (t.content === "But then he saw them") {
-        p.text(t.content, 0, 0);
-        p.drawingContext.filter = 'none';
-      } else {
-        p.text(t.content, 0, 0);
-      }
+      p.text(t.content, 0, 0);
       p.pop();
-    }
+    });
 
-    // bridge
-    let scrollProgress = p.map(scrollY, bridgeY - 900, bridgeY - 650, 0, 1, true);
-    let antsToShow = p.floor(scrollProgress * numAnts);
-
+    const scrollProgress = p.map(scrollY, bridgeY - 900, bridgeY - 650, 0, 1, true);
+    const antsToShow = p.floor(scrollProgress * numAnts);
     for (let i = 0; i < antsToShow; i++) {
+      const img = antImgs[i];
+      if (!img) continue; 
       p.push();
       p.translate(antBridgeData[i].x, antBridgeData[i].y);
       p.rotate(antBridgeData[i].angle);
       p.imageMode(p.CENTER);
-      p.image(antImgs[i], 0, 0, antWidth, antHeight);
+      p.drawingContext.drawImage(img, -antWidth/2, -antHeight/2, antWidth, antHeight);
       p.pop();
     }
 
-    let bottomTextY = 3740 - scrollY * parallaxFactor; 
-    if (bottomTextY > 0) { 
+    const bottomTextY = 3740 - scrollY * parallaxFactor;
+    if (bottomTextY > 0) {
       p.push();
       p.textFont('Crimson Pro', 'serif');
       p.textSize(40);
@@ -198,7 +180,6 @@ let moatScene = function(p) {
       p.pop();
     }
   };
-
 
   class Agent {
     constructor() {
@@ -218,7 +199,7 @@ let moatScene = function(p) {
     }
 
     update() {
-      let angle = p.noise(this.x / this.noiseScale, this.y / this.noiseScale) * this.noiseStrength;
+      const angle = p.noise(this.x / this.noiseScale, this.y / this.noiseScale) * this.noiseStrength;
       this.x += p.cos(angle) * this.speed;
       this.y += p.sin(angle) * this.speed;
     }
