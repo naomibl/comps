@@ -31,13 +31,18 @@ let moatScene = function(p) {
 
   let parallaxFactor = 0.3;
 
-  p.preload = function() {
-    for (let i = 1; i <= numAnts; i++) {
-      let imgNum = (i % baseAnts) + 1;
-      antImgs.push(p.loadImage(`../assets/images/a${imgNum}.png`));
+  function loadAntImg(i) {
+  let imgNum = (i % baseAnts) + 1;
+  return p.loadImage(`../assets/images/a${imgNum}.png`, 
+    (img) => {
+      antImgs[i] = img; // store once loaded
+    },
+    (err) => {
+      console.warn("Image failed to load:", err);
     }
-  };
-  
+  );
+}
+
   p.setup = function() {
     let canvas = p.createCanvas(p.windowWidth, 3200);
     canvas.parent("moat-scene");
@@ -66,6 +71,8 @@ let moatScene = function(p) {
       let angle = p.atan2(dy, dx);
       let vOffset = [-15, 0, 15][Math.floor(p.random(0, 3))];
       antBridgeData.push({ x: x, y: y + vOffset, angle: angle });
+      antImgs.push(null); // placeholder
+      loadAntImg(i);
     }
 
     p.noLoop();
