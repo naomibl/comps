@@ -4,7 +4,7 @@ This is my senior comprehensive project, using a combination of hand-drawn illus
 # Instructions
 1. Download the repository
 2. Open repository folder
-3. Open begin.html with Chrome
+3. Open begin.html with Chrome, view in full screen
 4. Have fun!
 
 You can view the story with this link (in Chrome) : https://github.com/naomibl/comps
